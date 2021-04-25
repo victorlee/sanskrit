@@ -1,37 +1,12 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sanskrit sandhi converter - Harvard-Kyoto input</title>
+    <title>Harvard-Kyoto to IAST converter</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script type="text/javascript">
-        function getReplacedText(latinText) {
-            if (!latinText) {
-                return "";
-        }
-            var replacedText = "";
-            for (var i = 0, len = latinText.length; i < len; i++) {
-                var curLetter = latinText[i];
-                var pos1Txt = latinText[i + 1];
-                var pos2Txt = latinText[i + 2];
-                if (!(curLetter == "")) {
-                    var dualLetter = latreplaced[curLetter + pos1Txt];
-                    if (dualLetter) {
-                        replacedText += dualLetter;
-                        i++;
-                        continue;
-                    }
-                }
-                replacedText += latreplaced[curLetter] || curLetter;
-            }
-            return replacedText;
-        }
-        
-     
-        var latreplaced = {
- 
+	  
+var conversion = {
 "a a":"ā",
 "a A":"ā",
 "a i":"e",
@@ -177,29 +152,62 @@
 "au au":"āv au",
         };
 
-        function onLatinTextChange(txt) {
-            var replacedTextareaElem = document.getElementById("replaced_textarea");
-            var div = document.createElement("div");
-            var replacedHtmlEntities = getReplacedText(txt);
-            div.innerHTML = replacedHtmlEntities;
-            replacedTextareaElem.value = div.innerText;
+ var maxLength = Object.keys(conversion)
+    .reduce((a, b) => a.length > b.length ? a : b) // get the longest word
+    .length; // and it's length
+  
+  function convert (text) {
+    var converted = "";
+    var cur = 0;
+    while (cur < text.length) {
+      var testedPhoneme;
+      var symbol = undefined;
+      for (var length = maxLength; length > 0; length --) {
+        testedPhoneme = text.substr(cur, length);
+        if (conversion[testedPhoneme]) {
+          symbol = conversion[testedPhoneme];
+          break; // stop the loop
         }
-	    
-	function select() {
-         const input = document.getElementById('latin_textarea');
- 	 input.focus();
- 	 input.select();
-	}
+      }
+      if (symbol) {
+        converted += symbol;
+        cur += testedPhoneme.length;
+      }
+      else {
+        converted += text[cur]
+        cur++;
+      }
+    }
+    return converted
+  }
+
+  function onInputTextChange(txt) {
+    var outputTextareaElem = document.getElementById("output_textarea");
+    var div = document.createElement("div");
+    var outputHtmlEntities = convert(txt);
+    div.innerHTML = outputHtmlEntities;
+    outputTextareaElem.value = div.innerText;
+  }
+
+
+        function select() {
+          const input = document.getElementById('input_textarea');
+          input.focus();
+          input.select();
+        }   
         function copytext() {
-        var copyText = document.getElementById("replaced_textarea");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999)
-        document.execCommand("copy");
+          var copyText = document.getElementById("output_textarea");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999)
+          document.execCommand("copy");
         }
+
     </script>
     
 <style>
-html {font-family:arial}
+html {
+font-family:arial
+}
 table {
   border-collapse: collapse;
   width: 90%;
@@ -209,14 +217,14 @@ td, th {
   text-align: center;
   padding: 1px;
 }
-textarea, table {
-	font-size: 18pt;
-	font-family: Monospace;
+textarea {
+	font-size: 16pt;
+	font-family: Arial;
     width: 96%;
 } 
 .note {
   border: 1px solid #DDD;
-  width: 45%;
+  width: 30%;
   text-align: left;
   padding-left: 30px;
   padding-right: 30px;
@@ -231,19 +239,19 @@ textarea, table {
 
 <body>  
 
-<center><h1 class="text-center">Sanskrit sandhi converter - Harvard-Kyoto input</h1></center>
-
+<center><h1 class="text-center">Harvard-Kyoto to IAST converter</h1>
+</center><br>
+ 
 <center>
 <table>
 <thead>
 <tr>
 <th>	
-<button onclick="select('latin_textarea')">Select all</button>
-<button onclick="document.getElementById('latin_textarea').value = ''">Clear</button>
+<button onclick="select('input_textarea')">Select all</button>
+<button onclick="document.getElementById('input_textarea').value = ''">Clear</button>
 </th>
 <th>
-<button onclick="copytext()">Copy text</button><br>
-
+<button onclick="copytext()">Copy text</button>
 </th>
 </tr>
 </thead>
@@ -251,23 +259,20 @@ textarea, table {
 <tr>
 <td>
 <textarea
-id="latin_textarea"
+id="input_textarea"
 autofocus=""
-placeholder="input"
-spellcheck="false"
-rows="14"
-oninput="onLatinTextChange(this.value)"></textarea>    
+placeholder="Input text here"
+rows="15"
+oninput="onInputTextChange(this.value)" spellcheck="false"></textarea>    
 </td>
 <td>
-<textarea rows="14" spellcheck="false" placeholder="output" id="replaced_textarea"></textarea>    
+<textarea rows="15" placeholder="output" id="output_textarea" spellcheck="false"></textarea>    
 </td>
 
 </tr>
 </tbody>
 </table>
 </center>
-	
-
 
 </body>
 </html>
