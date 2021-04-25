@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sanskrit sandhi converter - Harvard-Kyoto input</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript">
+        function getReplacedText(latinText) {
+            if (!latinText) {
+                return "";
+        }
+            var replacedText = "";
+            for (var i = 0, len = latinText.length; i < len; i++) {
+                var curLetter = latinText[i];
+                var pos1Txt = latinText[i + 1];
+                var pos2Txt = latinText[i + 2];
+                if (!(curLetter == "")) {
+                    var dualLetter = latreplaced[curLetter + pos1Txt];
+                    if (dualLetter) {
+                        replacedText += dualLetter;
+                        i++;
+                        continue;
+                    }
+                }
+                replacedText += latreplaced[curLetter] || curLetter;
+            }
+            return replacedText;
+        }
+        
+     
+        var latreplaced = {
+ 
+"a a":"ā",
+"a A":"ā",
+"a i":"e",
+"a I":"e",
+"a u":"o",
+"a U":"o",
+"a R":"ar",
+"a e":"ai",
+"a ai":"ai",
+"a o":"au",
+"a au":"au",
+
+"A a":"ā",
+"A A":"ā",
+"A i":"e",
+"A I":"e",
+"A u":"o",
+"A U":"o",
+"A R":"Ar",
+"A e":"Ai",
+"A ai":"Ai",
+"A o":"Au",
+"A au":"Au",
+
+"i a":"y a",
+"i A":"y ā",
+"i i":"ī",
+"i I":"ī",
+"i u":"y u",
+"i U":"y ū",
+"i R":"y ṛ",
+"i e":"y e",
+"i ai":"y ai",
+"i o":"y o",
+"i au":"y au",
+
+"I a":"y a",
+"I A":"y ā",
+"I i":"ī",
+"I I":"ī",
+"I u":"y u",
+"I U":"y ū",
+"I R":"y ṛ",
+"I e":"y e",
+"I ai":"y ai",
+"I o":"y o",
+"I au":"y au",
+
+"u a":"v a",
+"u A":"v ā",
+"u i":"v ī",
+"u I":"v ī",
+"u u":"ū",
+"u U":"ū",
+"u R":"v ṛ",
+"u e":"v e",
+"u ai":"v ai",
+"u o":"v o",
+"u au":"v au",
+
+"U a":"v a",
+"U A":"v ā",
+"U i":"v ī",
+"U I":"v ī",
+"U u":"ū",
+"U U":"ū",
+"U R":"v ṛ",
+"U e":"v e",
+"U ai":"v ai",
+"U o":"v o",
+"U au":"v au",
+
+"R a":"r a",
+"R A":"r ā",
+"R i":"r i",
+"R I":"r ī",
+"R u":"r u",
+"R U":"r ū",
+"R e":"r e",
+"R R":"ṝ",
+"R ai":"r ai",
+"R o":"r o",
+"R au":"r au",
+
+"R a":"r a",
+"R A":"r ā",
+"R i":"r i",
+"R I":"r ī",
+"R u":"r u",
+"R U":"r ū",
+"R e":"r e",
+"R R":"ṝ",
+"R ai":"r ai",
+"R o":"r o",
+"R au":"r au",
+
+"e a":"r a",
+"e A":"r ā",
+"e i":"r i",
+"e I":"r ī",
+"e u":"r u",
+"e U":"r ū",
+"e e":"r e",
+"e R":"ṝ",
+"e ai":"r ai",
+"e o":"r o",
+"e au":"r au",
+
+"e a":"e '",
+"e A":"a ā",
+"e i":"a i",
+"e I":"a ī",
+"e u":"a u",
+"e U":"a ū",
+"e e":"a e",
+"e R":"a ṛ",
+"e ai":"a ai",
+"e o":"a o",
+"e au":"a au",
+
+"o a":"o '",
+"o A":"a ā",
+"o i":"a i",
+"o I":"a ī",
+"o u":"a u",
+"o U":"a ū",
+"o e":"a e",
+"o R":"a ṛ",
+"o ai":"a ai",
+"o o":"a o",
+"o au":"a au",
+
+"ai a":"ā a",
+"ai A":"ā ā",
+"ai i":"ā i",
+"ai I":"ā ī",
+"ai u":"ā u",
+"ai U":"ā ū",
+"ai e":"ā e",
+"ai R":"ā ṛ",
+"ai ai":"ā ai",
+"ai o":"ā o",
+"ai au":"ā au",
+
+"au a":"āv a",
+"au A":"āv āv",
+"au i":"āv i",
+"au I":"āv ī",
+"au u":"āv u",
+"au U":"āv ū",
+"au e":"āv e",
+"au R":"āv ṛ",
+"au au":"āv au",
+"au o":"āv o",
+"au au":"āv au",
+        };
+
+        function onLatinTextChange(txt) {
+            var replacedTextareaElem = document.getElementById("replaced_textarea");
+            var div = document.createElement("div");
+            var replacedHtmlEntities = getReplacedText(txt);
+            div.innerHTML = replacedHtmlEntities;
+            replacedTextareaElem.value = div.innerText;
+        }
+	    
+	function select() {
+         const input = document.getElementById('latin_textarea');
+ 	 input.focus();
+ 	 input.select();
+	}
+        function copytext() {
+        var copyText = document.getElementById("replaced_textarea");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999)
+        document.execCommand("copy");
+        }
+    </script>
+    
+<style>
+html {font-family:arial}
+table {
+  border-collapse: collapse;
+  width: 90%;
+}
+td, th {
+  border: 1px solid #AAA;
+  text-align: center;
+  padding: 1px;
+}
+textarea, table {
+	font-size: 18pt;
+	font-family: Monospace;
+    width: 96%;
+} 
+.note {
+  border: 1px solid #DDD;
+  width: 45%;
+  text-align: left;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+</style>
+
+
+</head>
+<body>  
+
+<body>  
+
+<center><h1 class="text-center">Sanskrit sandhi converter - Harvard-Kyoto input</h1></center>
+
+<center>
+<table>
+<thead>
+<tr>
+<th>	
+<button onclick="select('latin_textarea')">Select all</button>
+<button onclick="document.getElementById('latin_textarea').value = ''">Clear</button>
+</th>
+<th>
+<button onclick="copytext()">Copy text</button><br>
+
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<textarea
+id="latin_textarea"
+autofocus=""
+placeholder="input"
+spellcheck="false"
+rows="14"
+oninput="onLatinTextChange(this.value)"></textarea>    
+</td>
+<td>
+<textarea rows="14" spellcheck="false" placeholder="output" id="replaced_textarea"></textarea>    
+</td>
+
+</tr>
+</tbody>
+</table>
+</center>
+	
+
+
+</body>
+</html>
